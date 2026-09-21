@@ -10,17 +10,17 @@ return new class extends Migration
     {
         Schema::create('vehiculos', function (Blueprint $table) {
             $table->id();
-            $table->string('clase_vehiculo', 50);
-            $table->string('tipo', 50);
-            $table->string('marca', 50);
-            $table->string('modelo', 50);
+            $table->foreignId('clase_vehiculo_id')->constrained('clase_vehiculos');
+            $table->foreignId('tipo_vehiculo_id')->constrained('tipo_vehiculos');
+            $table->foreignId('marca_vehiculo_id')->constrained('marca_vehiculos');
+            $table->foreignId('modelo_vehiculo_id')->constrained('modelo_vehiculos');
             $table->string('carroceria', 50)->nullable();
             $table->string('motor', 50);
             $table->integer('anio');
-            $table->string('color', 30);
+            $table->foreignId('color_vehiculo_id')->constrained('color_vehiculos');
             $table->string('puesto', 20)->nullable();
             $table->decimal('peso', 8, 2)->nullable();
-            $table->string('uso', 50);
+            $table->foreignId('uso_vehiculo_id')->constrained('uso_vehiculos');
             $table->string('placas', 15)->unique();
             $table->timestamps();
         });

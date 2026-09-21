@@ -2,7 +2,13 @@
 
 namespace Database\Seeders;
 
+use App\Models\ClaseVehiculo;
+use App\Models\ColorVehiculo;
+use App\Models\MarcaVehiculo;
+use App\Models\ModeloVehiculo;
+use App\Models\TipoVehiculo;
 use App\Models\User;
+use App\Models\UsoVehiculo;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -123,7 +129,7 @@ class ProductionDataSeeder extends Seeder
             ],
         ]);
 
-        DB::table('vehiculos')->insert([
+        $vehiculos = [
             0 => [
                 'id' => 1,
                 'clase_vehiculo' => 'MOTO',
@@ -8182,7 +8188,151 @@ class ProductionDataSeeder extends Seeder
                 'created_at' => '2026-07-28 22:14:51',
                 'updated_at' => '2026-07-28 22:14:51',
             ],
-        ]);
+        ];
+
+        $claseMap = [
+            'AUTOMIVIL' => 'AUTOMOVIL',
+            'Automóvile' => 'AUTOMOVIL',
+            'Automovil' => 'AUTOMOVIL',
+            'MINI BUS' => 'MINIBUS',
+            'MOTP' => 'MOTO',
+            'MOTOCICLETA' => 'MOTO',
+            'Motocicleta' => 'MOTO',
+            'Motocicleta ' => 'MOTO',
+        ];
+        
+        $colorMap = [
+            'BLANCO MULTICOLOR' => 'BLANCO Y MULTICOLOR',
+        ];
+
+        $marcaMap = [
+            'EMPIREKEEWAY' => 'EMPIRE KEEWAY',
+            'HYNDAI' => 'HYUNDAI',
+            'KKEWAY' => 'KEEWAY',
+            'TOYOYA' => 'TOYOTA',
+            'HAIJIN' => 'HAOJIN',
+            'HOJIN' => 'HAOJIN',
+            'SKIGO' => 'SKYGO',
+            'QUINGQI' => 'QINGQI',
+            'BR150' => 'BERA', // Usually BR150 is a Bera model, not brand
+        ];
+
+        $modeloMap = [
+            'AGUILA 150CC' => 'AGUILA 150',
+            'AGUILA150CC' => 'AGUILA 150',
+            'AGILA 150' => 'AGUILA 150',
+            'AGUILA / UNICA' => 'AGUILA 150',
+            'AGUILA/UNICA' => 'AGUILA 150',
+            'AGUILA UNICA' => 'AGUILA 150',
+            
+            'HORSE-150' => 'HORSE 150',
+            'HORSE150' => 'HORSE 150',
+            'HOSE 150' => 'HORSE 150',
+            'HORSE KW-150' => 'HORSE 150',
+            'HORSE KW 150' => 'HORSE 150',
+            'HORSE KW150' => 'HORSE 150',
+            'HORSEKW-150' => 'HORSE 150',
+            'HORSEN KW-150' => 'HORSE 150',
+            'HORSE KE-150' => 'HORSE 150',
+            'HORSE KW' => 'HORSE 150',
+            
+            'OWEN-150' => 'OWEN 150',
+            'OWEN -150' => 'OWEN 150',
+            'OWEN QJ-150' => 'OWEN 150',
+            'OWEN QJ-150C' => 'OWEN 150',
+            
+            'EKXPRESS II 150' => 'EK XPRESS 150',
+            'EKXPREZZ II 150' => 'EK XPRESS 150',
+            'EKXPRESS II' => 'EK XPRESS 150',
+            'EK XPRESS' => 'EK XPRESS 150',
+            'EKEXPRESS II' => 'EK XPRESS 150',
+            'EKXPRESS' => 'EK XPRESS 150',
+
+            'CUERVO 150CC' => 'CUERVO 150',
+            'CUERVO/UNICA' => 'CUERVO 150',
+            'CUERVO/GAS 95' => 'CUERVO 150',
+            'CUERVO 95' => 'CUERVO 150',
+            
+            'BR-150' => 'BR 150',
+            'BR150' => 'BR 150',
+            'BR CC/150' => 'BR 150',
+            
+            'BR150-2' => 'BR 150-2',
+            'BR-150-2' => 'BR 150-2',
+            'BR-150-2/21' => 'BR 150-2',
+            'BR150-2 / 21' => 'BR 150-2',
+            'BR150-2/21' => 'BR 150-2',
+            
+            'BR-150 KAVAK' => 'BR 150 KAVAK',
+            'BR150 KAVAK' => 'BR 150 KAVAK',
+            
+            'BR150-BRF' => 'BR 150 BRF',
+            'BR 150-BRF' => 'BR 150 BRF',
+            'BRF' => 'BR 150 BRF',
+
+            'ARSEN II' => 'ARSEN II 150',
+            'ARSEN II-150' => 'ARSEN II 150',
+        ];
+
+        foreach ($vehiculos as &$vehiculo) {
+            // Normalize clase_vehiculo
+            $clase = trim(strtoupper($vehiculo['clase_vehiculo'] ?? ''));
+            if (isset($claseMap[$vehiculo['clase_vehiculo']])) {
+                $clase = $claseMap[$vehiculo['clase_vehiculo']];
+            } elseif (isset($claseMap[$clase])) {
+                $clase = $claseMap[$clase];
+            }
+            $vehiculo['clase_vehiculo'] = $clase;
+            
+            // Normalize color
+            $color = trim(strtoupper($vehiculo['color'] ?? ''));
+            if (isset($colorMap[$vehiculo['color']])) {
+                $color = $colorMap[$vehiculo['color']];
+            } elseif (isset($colorMap[$color])) {
+                $color = $colorMap[$color];
+            }
+            $vehiculo['color'] = $color;
+
+            // Normalize marca
+            $marca = trim(strtoupper($vehiculo['marca'] ?? ''));
+            if (isset($marcaMap[$vehiculo['marca']])) {
+                $marca = $marcaMap[$vehiculo['marca']];
+            } elseif (isset($marcaMap[$marca])) {
+                $marca = $marcaMap[$marca];
+            }
+            $vehiculo['marca'] = $marca;
+            
+            // Normalize modelo
+            $modelo = trim(strtoupper($vehiculo['modelo'] ?? ''));
+            if (isset($modeloMap[$vehiculo['modelo']])) {
+                $modelo = $modeloMap[$vehiculo['modelo']];
+            } elseif (isset($modeloMap[$modelo])) {
+                $modelo = $modeloMap[$modelo];
+            }
+            $vehiculo['modelo'] = $modelo;
+
+            // Trim spaces and uppercase other fields
+            $vehiculo['tipo'] = trim(strtoupper($vehiculo['tipo'] ?? ''));
+            $vehiculo['uso'] = trim(strtoupper($vehiculo['uso'] ?? ''));
+
+            $vehiculo['clase_vehiculo_id'] = ClaseVehiculo::firstOrCreate(['nombre' => $vehiculo['clase_vehiculo']])->id;
+            unset($vehiculo['clase_vehiculo']);
+            $vehiculo['tipo_vehiculo_id'] = TipoVehiculo::firstOrCreate(['nombre' => $vehiculo['tipo']])->id;
+            unset($vehiculo['tipo']);
+            $vehiculo['marca_vehiculo_id'] = MarcaVehiculo::firstOrCreate(['nombre' => $vehiculo['marca']])->id;
+            unset($vehiculo['marca']);
+            $vehiculo['modelo_vehiculo_id'] = ModeloVehiculo::firstOrCreate(['nombre' => $vehiculo['modelo']])->id;
+            unset($vehiculo['modelo']);
+            $vehiculo['color_vehiculo_id'] = ColorVehiculo::firstOrCreate(['nombre' => $vehiculo['color']])->id;
+            unset($vehiculo['color']);
+            $vehiculo['uso_vehiculo_id'] = UsoVehiculo::firstOrCreate(['nombre' => $vehiculo['uso']])->id;
+            unset($vehiculo['uso']);
+        }
+
+        // Insert chunks to avoid memory issues with huge arrays
+        foreach (array_chunk($vehiculos, 100) as $chunk) {
+            DB::table('vehiculos')->insert($chunk);
+        }
 
         DB::table('contratantes')->insert([
             0 => [

@@ -16,10 +16,18 @@ class VehiculosTable
             ->columns([
                 TextColumn::make('placas')
                     ->searchable(),
-                TextColumn::make('marca')
-                    ->searchable(),
-                TextColumn::make('modelo')
-                    ->searchable(),
+                TextColumn::make('claseVehiculo.nombre')
+                    ->label('Clase')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('marcaVehiculo.nombre')
+                    ->label('Marca')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('modeloVehiculo.nombre')
+                    ->label('Modelo')
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('anio')
                     ->numeric()
                     ->sortable(),
