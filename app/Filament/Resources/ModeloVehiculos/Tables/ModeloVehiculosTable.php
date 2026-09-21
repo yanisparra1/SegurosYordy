@@ -16,6 +16,7 @@ class ModeloVehiculosTable
                 \Filament\Tables\Columns\TextColumn::make('nombre')->searchable()
                     ->sortable(),
             ])
+            ->defaultSort('id', 'desc')
             ->filters([
                 //
             ])

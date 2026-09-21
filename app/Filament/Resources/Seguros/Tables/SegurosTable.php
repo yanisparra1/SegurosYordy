@@ -39,6 +39,7 @@ class SegurosTable
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('numero_seguro', 'desc')
             ->filters([
                 //
             ])
