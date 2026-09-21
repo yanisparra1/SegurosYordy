@@ -8272,6 +8272,27 @@ class ProductionDataSeeder extends Seeder
 
             'ARSEN II' => 'ARSEN II 150',
             'ARSEN II-150' => 'ARSEN II 150',
+            'MD EAGLE 150' => 'EAGLE 150',
+            'MD ALCON 150' => 'HALCON 150',
+            'ALCON 150' => 'HALCON 150',
+        ];
+
+        $tipoMap = [
+            'MOTO' => 'MOTOCICLETA',
+            'MOTOCICLE' => 'MOTOCICLETA',
+            'MOTOCLICLETA' => 'MOTOCICLETA',
+            'MOTOCLIETA' => 'MOTOCICLETA',
+            'ENDURO' => 'MOTOCICLETA',
+            'SCOOTER' => 'MOTOCICLETA',
+            'PASEA' => 'PASEO',
+            'SADAN' => 'SEDAN',
+            'DEDAN' => 'SEDAN',
+            'PICK-UP D CABINA' => 'PICK-UP',
+            'PLAT/BARANDA' => 'PLATAFORMA/BARANDA',
+            'PLATAFORMA' => 'PLATAFORMA/BARANDA',
+            'PLATF/BARAN' => 'PLATAFORMA/BARANDA',
+            'PLATF/BARANDA' => 'PLATAFORMA/BARANDA',
+            'PLATF/ESTACA' => 'PLATAFORMA/ESTACA',
         ];
 
         foreach ($vehiculos as &$vehiculo) {
@@ -8311,8 +8332,16 @@ class ProductionDataSeeder extends Seeder
             }
             $vehiculo['modelo'] = $modelo;
 
+            // Normalize tipo
+            $tipo = trim(strtoupper($vehiculo['tipo'] ?? ''));
+            if (isset($tipoMap[$vehiculo['tipo']])) {
+                $tipo = $tipoMap[$vehiculo['tipo']];
+            } elseif (isset($tipoMap[$tipo])) {
+                $tipo = $tipoMap[$tipo];
+            }
+            $vehiculo['tipo'] = $tipo;
+
             // Trim spaces and uppercase other fields
-            $vehiculo['tipo'] = trim(strtoupper($vehiculo['tipo'] ?? ''));
             $vehiculo['uso'] = trim(strtoupper($vehiculo['uso'] ?? ''));
 
             $vehiculo['clase_vehiculo_id'] = ClaseVehiculo::firstOrCreate(['nombre' => $vehiculo['clase_vehiculo']])->id;
