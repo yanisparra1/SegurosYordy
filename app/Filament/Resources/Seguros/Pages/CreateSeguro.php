@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Seguros\Pages;
 
 use App\Filament\Resources\Seguros\SeguroResource;
+use Carbon\Carbon;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateSeguro extends CreateRecord
@@ -12,7 +13,7 @@ class CreateSeguro extends CreateRecord
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         if (isset($data['fecha_creacion'])) {
-            $data['fecha_vencimiento'] = \Carbon\Carbon::parse($data['fecha_creacion'])->addYear()->format('Y-m-d');
+            $data['fecha_vencimiento'] = Carbon::parse($data['fecha_creacion'])->addYear()->format('Y-m-d');
         }
 
         return $data;

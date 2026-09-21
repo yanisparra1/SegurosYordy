@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Seguros\Tables;
 
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -42,14 +43,14 @@ class SegurosTable
                 //
             ])
             ->recordActions([
-                \Filament\Actions\Action::make('Descargar PDF')
+                Action::make('Descargar PDF')
                     ->color('success')
                     ->icon('heroicon-s-cloud-arrow-down')
                     ->url(
-                        fn ($record) => route('pdf.example', ['user' => $record->numero_seguro]), 
+                        fn ($record) => route('pdf.example', ['user' => $record->numero_seguro]),
                         shouldOpenInNewTab: true
                     ),
-                \Filament\Actions\EditAction::make(),
+                EditAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

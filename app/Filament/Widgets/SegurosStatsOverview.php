@@ -9,7 +9,7 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 class SegurosStatsOverview extends BaseWidget
 {
     protected static ?int $sort = 1;
-    
+
     protected function getStats(): array
     {
         $total = Seguro::count();
@@ -21,12 +21,12 @@ class SegurosStatsOverview extends BaseWidget
                 ->description('Seguros activos en el sistema')
                 ->descriptionIcon('heroicon-m-shield-check')
                 ->color('success'),
-                
+
             Stat::make('Por Vencer', $porVencer)
                 ->description('Expiran en los próximos 30 días')
                 ->descriptionIcon('heroicon-m-exclamation-triangle')
                 ->color('warning'),
-                
+
             Stat::make('Vencidos', $vencidos)
                 ->description('Seguros que ya expiraron')
                 ->descriptionIcon('heroicon-m-x-circle')

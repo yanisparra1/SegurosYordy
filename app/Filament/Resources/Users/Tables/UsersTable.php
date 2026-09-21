@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Users\Tables;
 
+use App\Models\User;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -35,12 +37,12 @@ class UsersTable
                 //
             ])
             ->recordActions([
-                \Filament\Actions\Action::make('verify')
+                Action::make('verify')
                     ->label('Verificar')
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
-                    ->action(fn (\App\Models\User $record) => $record->update(['email_verified_at' => now()]))
-                    ->hidden(fn (\App\Models\User $record) => $record->email_verified_at !== null),
+                    ->action(fn (User $record) => $record->update(['email_verified_at' => now()]))
+                    ->hidden(fn (User $record) => $record->email_verified_at !== null),
                 EditAction::make(),
             ])
             ->toolbarActions([

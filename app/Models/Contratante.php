@@ -13,6 +13,4 @@ class Contratante extends Model
     {
         return $this->hasMany(Seguro::class);
     }
-
-  
 }

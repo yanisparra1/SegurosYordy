@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Seguros\Schemas;
 
+use App\Models\Seguro;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -14,7 +15,7 @@ class SeguroForm
         return $schema
             ->components([
                 TextInput::make('numero_seguro')
-                    ->default(fn () => (\App\Models\Seguro::max('numero_seguro') ?? 0) + 1)
+                    ->default(fn () => (Seguro::max('numero_seguro') ?? 0) + 1)
                     ->readOnly()
                     ->numeric(),
                 Select::make('contratante_id')
