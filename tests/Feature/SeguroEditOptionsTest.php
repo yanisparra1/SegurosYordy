@@ -19,7 +19,7 @@ use Livewire\Livewire;
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
-    $this->actingAs(User::factory()->create());
+    $this->actingAs(User::create(['name' => 'Admin', 'email' => 'admin@test.com', 'password' => 'password']));
 
     $this->contratante = Contratante::create([
         'nombre' => 'Juan',
