@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Seguros\Schemas;
 
+use App\Filament\Resources\Contratantes\Schemas\ContratanteForm;
+use App\Filament\Resources\Vehiculos\Schemas\VehiculoForm;
 use App\Models\Seguro;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
@@ -18,87 +20,25 @@ class SeguroForm
                     ->default(fn () => (Seguro::max('numero_seguro') ?? 0) + 1)
                     ->readOnly()
                     ->numeric(),
+                // Crear (+) y editar (lápiz) el contratante sin salir del seguro.
+                // Los campos vienen de ContratanteForm para no duplicarlos.
                 Select::make('contratante_id')
                     ->relationship('contratante', 'nombre')
                     ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->nombre} {$record->apellido} - {$record->cedula}")
                     ->required()
                     ->searchable(['nombre', 'apellido', 'cedula'])
                     ->preload()
-                    ->createOptionForm([
-                        TextInput::make('nombre')
-                            ->required(),
-                        TextInput::make('apellido')
-                            ->required(),
-                        TextInput::make('cedula')
-                            ->required(),
-                        TextInput::make('telefono')
-                            ->tel(),
-                        TextInput::make('direccion'),
-                    ]),
+                    ->createOptionForm(ContratanteForm::fields())
+                    ->editOptionForm(ContratanteForm::fields()),
+                // Crear (+) y editar (lápiz) el vehículo sin salir del seguro.
+                // Ojo: editar aquí modifica el vehículo en todos los seguros que lo usan.
                 Select::make('vehiculo_id')
                     ->relationship('vehiculo', 'placas')
                     ->required()
                     ->searchable()
                     ->preload()
-                    ->createOptionForm([
-                        Select::make('clase_vehiculo_id')
-                            ->relationship('claseVehiculo', 'nombre')
-                            ->createOptionForm([TextInput::make('nombre')->required()])
-                            ->editOptionForm([TextInput::make('nombre')->required()])
-                            ->searchable()
-                            ->preload()
-                            ->required(),
-                        Select::make('tipo_vehiculo_id')
-                            ->relationship('tipoVehiculo', 'nombre')
-                            ->createOptionForm([TextInput::make('nombre')->required()])
-                            ->editOptionForm([TextInput::make('nombre')->required()])
-                            ->searchable()
-                            ->preload()
-                            ->required(),
-                        Select::make('marca_vehiculo_id')
-                            ->relationship('marcaVehiculo', 'nombre')
-                            ->createOptionForm([TextInput::make('nombre')->required()])
-                            ->editOptionForm([TextInput::make('nombre')->required()])
-                            ->searchable()
-                            ->preload()
-                            ->required(),
-                        Select::make('modelo_vehiculo_id')
-                            ->relationship('modeloVehiculo', 'nombre')
-                            ->createOptionForm([TextInput::make('nombre')->required()])
-                            ->editOptionForm([TextInput::make('nombre')->required()])
-                            ->searchable()
-                            ->preload()
-                            ->required(),
-                        TextInput::make('carroceria')
-                            ->maxLength(50),
-                        TextInput::make('motor')
-                            ->required()
-                            ->maxLength(50),
-                        TextInput::make('anio')
-                            ->required()
-                            ->numeric(),
-                        Select::make('color_vehiculo_id')
-                            ->relationship('colorVehiculo', 'nombre')
-                            ->createOptionForm([TextInput::make('nombre')->required()])
-                            ->editOptionForm([TextInput::make('nombre')->required()])
-                            ->searchable()
-                            ->preload()
-                            ->required(),
-                        TextInput::make('puesto')
-                            ->maxLength(20),
-                        TextInput::make('peso')
-                            ->numeric(),
-                        Select::make('uso_vehiculo_id')
-                            ->relationship('usoVehiculo', 'nombre')
-                            ->createOptionForm([TextInput::make('nombre')->required()])
-                            ->editOptionForm([TextInput::make('nombre')->required()])
-                            ->searchable()
-                            ->preload()
-                            ->required(),
-                        TextInput::make('placas')
-                            ->required()
-                            ->maxLength(15),
-                    ]),
+                    ->createOptionForm(VehiculoForm::fields())
+                    ->editOptionForm(VehiculoForm::fields()),
                 Select::make('garantia_id')
                     ->relationship('garantia', 'nombre')
                     ->required()

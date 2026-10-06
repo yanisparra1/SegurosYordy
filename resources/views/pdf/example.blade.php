@@ -80,7 +80,7 @@
 <body>
     
     <div class="header">
-        <div class="logo"> wwwwwGGGFFFFwwwwwwwwwwwwwwwwwwwwwwwwww wwwwwwwwwwwwwwwwwwwwVwwwwggggrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr SERIE  D {{ $seguro->numero_seguro }}</div>
+        <div class="logo"> SERIE  D {{ $seguro->numero_seguro }}</div>
         <BR><BR> <div><u> HACIENDO EL CAMINO MAS CONFIABLE Y SEGURO. RIF-J29505309-0</div>
     </div>
 
@@ -133,12 +133,14 @@
             <td style="text-align: center;" >DATOS DEL VEHÍCULO</td>
         </tr>
     </table>
+{{-- Marca, modelo, color, tipo, clase y uso se guardan como IDs (FK) en la tabla vehiculos;
+     se muestran a través de sus relaciones (->nombre). El "?->" evita error si la relación es nula. --}}
 <table class="contract-infoS">
     <tr>
         <td width="25%">MARCA:</td>
-        <td width="25%">{{ $seguro->vehiculo->marca }}</td>
+        <td width="25%">{{ $seguro->vehiculo->marcaVehiculo?->nombre }}</td>
         <td width="25%">MODELO:</td>
-        <td width="25%">{{ $seguro->vehiculo->modelo }}</td>
+        <td width="25%">{{ $seguro->vehiculo->modeloVehiculo?->nombre }}</td>
     </tr>
     <tr>
         <td>AÑO:</td>
@@ -154,21 +156,22 @@
     </tr>
     <tr>
         <td>PESO:</td>
-        <td>{{ $seguro->vehiculo->peso }} kg</td>
+        {{-- Peso sin decimales (la columna es decimal(8,2)); si no tiene peso se deja vacío --}}
+        <td>{{ filled($seguro->vehiculo->peso) ? number_format($seguro->vehiculo->peso, 0, ',', '.').' kg' : '' }}</td>
         <td>COLOR:</td>
-        <td>{{ $seguro->vehiculo->color }}</td>
+        <td>{{ $seguro->vehiculo->colorVehiculo?->nombre }}</td>
     </tr>
     <tr>
         <td>TIPO:</td>
-        <td>{{ $seguro->vehiculo->tipo }}</td>
+        <td>{{ $seguro->vehiculo->tipoVehiculo?->nombre }}</td>
         <td>CLASE:</td>
-        <td>{{ $seguro->vehiculo->clase_vehiculo }}</td>
+        <td>{{ $seguro->vehiculo->claseVehiculo?->nombre }}</td>
     </tr>
     <tr>
         <td>PUESTOS:</td>
         <td>{{ $seguro->vehiculo->puesto }}</td>
         <td>USO:</td>
-        <td>{{ $seguro->vehiculo->uso }}</td>
+        <td>{{ $seguro->vehiculo->usoVehiculo?->nombre }}</td>
     </tr>
 </table>
 
@@ -352,11 +355,12 @@
                     <table>
                        <tr>
                         <td>
+                            {{-- Carnet: marca, modelo, color y uso se leen desde sus relaciones de catálogo --}}
                             <div style="text-align: left; font-size: 9px; margin-top: 0px;">
-                            <span><strong>MARCA:</strong> {{ $seguro->vehiculo->marca }}</span>
+                            <span><strong>MARCA:</strong> {{ $seguro->vehiculo->marcaVehiculo?->nombre }}</span>
                         </div>
                            <div style="text-align: left; font-size: 9px; margin-top: 0px;">
-                             <span><strong>MODELO:</strong> {{ $seguro->vehiculo->modelo }}</span>  </div>
+                             <span><strong>MODELO:</strong> {{ $seguro->vehiculo->modeloVehiculo?->nombre }}</span>  </div>
                         
                         <!-- Datos del propietario -->
                         <div style="text-align: left; font-size: 9px; margin-top: 0px;">
@@ -370,7 +374,7 @@
 
 
 
-                <div style="text-align: left; font-size: 9px; margin-top: 0px;"><strong>COLOR:</strong> {{ $seguro->vehiculo->color }}</div>
+                <div style="text-align: left; font-size: 9px; margin-top: 0px;"><strong>COLOR:</strong> {{ $seguro->vehiculo->colorVehiculo?->nombre }}</div>
                 <div style="text-align: left; font-size: 9px; margin-top: 0px;"><strong>MOTOR:</strong> {{ $seguro->vehiculo->motor }}</div>
                 <div style="text-align: left; font-size: 9px; margin-top: 0px;"><strong>CARROCERÍA:</strong> {{ $seguro->vehiculo->carroceria }}</div>
                 <div style="text-align: left; font-size: 9px; margin-top: 0px;">
@@ -378,7 +382,7 @@
                 </div>
                 <div style="text-align: left; font-size: 9px; margin-top: 0px;">
                
-                    <span><strong>USO:</strong> {{ $seguro->vehiculo->uso }}</span>
+                    <span><strong>USO:</strong> {{ $seguro->vehiculo->usoVehiculo?->nombre }}</span>
                 </div>
               </td>
                     <td>

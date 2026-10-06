@@ -14,7 +14,18 @@ class PdfController extends Controller
     public function TimesheetRecords($user)
     {
         //  $Seguro = Seguro::findOrFail($user);
-        $seguro = Seguro::where('numero_seguro', $user)->firstOrFail();
+        // Se cargan las relaciones del vehículo (catálogos) en la misma consulta para que el PDF
+        // muestre marca, modelo, tipo, clase, color y uso sin consultas adicionales.
+        $seguro = Seguro::with([
+            'contratante',
+            'garantia',
+            'vehiculo.marcaVehiculo',
+            'vehiculo.modeloVehiculo',
+            'vehiculo.tipoVehiculo',
+            'vehiculo.claseVehiculo',
+            'vehiculo.colorVehiculo',
+            'vehiculo.usoVehiculo',
+        ])->where('numero_seguro', $user)->firstOrFail();
         // $personal = Personal::where('qr', $user)->first();
 
         $imagePath = public_path('membrete.png');
